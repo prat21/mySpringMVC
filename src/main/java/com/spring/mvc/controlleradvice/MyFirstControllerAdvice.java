@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.spring.mvc.exception.InvalidIdException;
 import com.spring.mvc.model.HttpMessageNotWritableExceptionInfo;
+import com.spring.mvc.model.InvalidIdExceptionInfo;
 
 @Component
 @RestControllerAdvice
@@ -19,5 +21,12 @@ public class MyFirstControllerAdvice {
 	@ExceptionHandler(HttpMessageNotWritableException.class)
 	public HttpMessageNotWritableExceptionInfo HttpMessageNotWritableExceptionResolver(Exception ex,HttpServletRequest req) {
 		return new HttpMessageNotWritableExceptionInfo(ex.getMessage(),req.getRequestURI());
+	}
+	
+	
+	@ResponseStatus(value=HttpStatus.NOT_ACCEPTABLE)
+	@ExceptionHandler(InvalidIdException.class)
+	public InvalidIdExceptionInfo InvalidIdExceptionResolver(Exception ex,HttpServletRequest req) {
+		return new InvalidIdExceptionInfo(ex.getMessage(),req.getRequestURI());
 	}
 }
